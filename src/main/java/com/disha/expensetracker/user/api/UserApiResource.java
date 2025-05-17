@@ -1,6 +1,8 @@
 package com.disha.expensetracker.user.api;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +12,7 @@ import com.disha.expensetracker.user.data.CreateUserRequest;
 import com.disha.expensetracker.user.service.UserRegistrationService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserApiResource {
 
     private final UserRegistrationService userRegistrationService;
@@ -20,8 +22,9 @@ public class UserApiResource {
     }
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody CreateUserRequest request) throws BadRequestException {
+    public ResponseEntity<String> registerUser(@RequestBody CreateUserRequest request) throws BadRequestException {
         this.userRegistrationService.registerUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
 }
